@@ -50,5 +50,5 @@ test(("checkbox flow"), () => {
    // click checkBox again to re-enable button
    fireEvent.click(checkBoxElement);
    expect(buttonElement).toBeEnabled();
+});
 
-})
