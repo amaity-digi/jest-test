@@ -47,7 +47,22 @@ test("CheckBox disables button on first click and enables on second click using 
   expect(confirmButton).toBeDisabled();
 });
 
-test(("pop up response to hover"), () => {
-    const user = userEvent.setup();
-    console.log("user", user);
-})
+test("pop up response to hover", async () => {
+  const user = userEvent.setup();
+  // console.log("user", user);
+  render(<OrderSummary />);
+  const nullPopOver = screen.queryByText(
+    /no ice cream will actually be delivered/i
+  );
+  expect(nullPopOver).not.toBeInTheDocument();
+
+  //popover appears on mouseHover of checkBox label
+  const termsAndCondition = screen.getByText(/terms and conditions/i);
+  await user.hover(termsAndCondition);
+  const popover = screen.getByText(/no ice cream will actually be delivered/i);
+  expect(popover).toBeInTheDocument();
+
+  //popover disappears on mouseHover of checkBox label
+  await user.unhover(termsAndCondition);
+  expect(popover).not.toBeInTheDocument();
+});
